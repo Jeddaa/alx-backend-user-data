@@ -14,31 +14,31 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 auth_type = getenv('AUTH_TYPE')
-# auth = request.args.get('AUTH_TYPE')
 if auth_type == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
-    # auth.init_app(app)
-    # elif auth_type == "basic_auth":
-# else:
-#     auth = None
+elif auth_type == "basic_auth":
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth()
 
 
 @app.before_request
-def before_request() -> None:
+def before_request():
     """Executes before the whole routes does"""
-    excluded_path = [
+    if auth is None:
+        return
+    else:
+        excluded_path = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
         '/api/v1/forbidden/'
     ]
-    if auth is None:
-        return
+
     if auth.require_auth(request.path, excluded_path):
         if auth.authorization_header(request) is None:
-            abort(401)
+            abort(401, description="Unauthorized")
         if auth.current_user(request) is None:
-            abort(403)
+            abort(403, description="Forbidden")
 
 
 @app.errorhandler(404)
@@ -49,7 +49,7 @@ def not_found(error) -> str:
 
 
 @app.errorhandler(401)
-def internal_server_error(error) -> str:
+def internal_error(error) -> str:
     """Unauthorized error handler"""
     return jsonify({"error": "Unauthorized"}), 401
 

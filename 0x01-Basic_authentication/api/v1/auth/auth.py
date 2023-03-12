@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """ Module to manage the API authentication
 """
@@ -28,9 +29,8 @@ class Auth:
             return None
         elif request.headers.get('Authorization') is None:
             return None
-        else:
-            return request.headers.get('Authorization')
+        return request.headers.get('Authorization')
 
     def current_user(self, request=None) -> TypeVar('User'):
         ''' function to request current user'''
-        return request
+        return None
