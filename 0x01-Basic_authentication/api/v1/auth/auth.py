@@ -12,11 +12,9 @@ class Auth:
         # if path in excluded_paths:
         return False
 
-
     def authorization_header(self, request=None) -> str:
         ''' function to request authorization'''
         return request
-
 
     def current_user(self, request=None) -> TypeVar('User'):
         ''' function to request current user'''
