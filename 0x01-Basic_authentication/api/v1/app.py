@@ -28,11 +28,10 @@ def before_request():
     if auth is None:
         return
     else:
-        excluded_path = [
-        '/api/v1/status/',
-        '/api/v1/unauthorized/',
-        '/api/v1/forbidden/'
-    ]
+        excluded_path = ['/api/v1/status/',
+                         '/api/v1/unauthorized/',
+                         '/api/v1/forbidden/'
+                         ]
 
     if auth.require_auth(request.path, excluded_path):
         if auth.authorization_header(request) is None:
