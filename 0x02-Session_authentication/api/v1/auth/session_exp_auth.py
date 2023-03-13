@@ -1,24 +1,37 @@
 #!/usr/bin/env python3
-'''Sesssion authentication module'''
-from api.v1.auth.session_auth import SessionAuth
-import uuid
+"""
+Define SessionExpAuth class
+"""
 import os
 from datetime import (
     datetime,
     timedelta
 )
 
-from models.user import User
+from .session_auth import SessionAuth
 
 
 class SessionExpAuth(SessionAuth):
-    '''Sesssion authentication module'''
-    def __init__(self, session_duration=0):
-        '''Constructor'''
-        self.session_duration = int(os.getenv('SESSION_DURATION'))
+    """
+    Definition of class SessionExpAuth that adds an
+    expiration date to a Session ID
+    """
+    def __init__(self):
+        """
+        Initialize the class
+        """
+        try:
+            duration = int(os.getenv('SESSION_DURATION'))
+        except Exception:
+            duration = 0
+        self.session_duration = duration
 
     def create_session(self, user_id=None):
-        '''create a session'''
+        """
+        Create a Session ID for a user_id
+        Args:
+            user_id (str): user id
+        """
         session_id = super().create_session(user_id)
         if session_id is None:
             return None

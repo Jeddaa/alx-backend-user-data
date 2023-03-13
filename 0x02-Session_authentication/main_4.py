@@ -6,7 +6,7 @@ from api.v1.auth.session_auth import SessionAuth
 from models.user import User
 
 """ Create a user test """
-user_email = "breastilola@hbtn.io"
+user_email = "bobsession@hbtn.io"
 user_clear_pwd = "fake pwd"
 
 user = User()

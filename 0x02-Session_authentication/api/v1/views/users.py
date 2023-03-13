@@ -127,13 +127,3 @@ def update_user(user_id: str = None) -> str:
         user.last_name = rj.get('last_name')
     user.save()
     return jsonify(user.to_json()), 200
-
-
-@app_views.route('/users/me', methods=['GET'], strict_slashes=False)
-def view_auth_user() -> str:
-    """ GET /api/v1/users
-    Return:
-      - list of all User objects JSON represented
-    """
-    all_users = [user.to_json() for user in User.all()]
-    return jsonify(all_users)
