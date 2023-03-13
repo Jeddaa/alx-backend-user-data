@@ -35,7 +35,7 @@ elif auth_type == "session_db_auth":
 def before_request():
     """Executes before the whole routes does"""
     if auth is None:
-        return
+        pass
     else:
         setattr(request, "current_user", auth.current_user(request))
         excluded_path = ['/api/v1/status/',
